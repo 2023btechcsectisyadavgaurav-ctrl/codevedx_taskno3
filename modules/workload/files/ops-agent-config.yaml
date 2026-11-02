@@ -1,0 +1,17 @@
+# Google Cloud Ops Agent configuration.
+# The agent already collects CPU, memory, disk, network and process metrics plus syslog by default.
+# This file adds the application's JSON request log so latency and errors become log-based metrics.
+logging:
+  receivers:
+    demo_app:
+      type: files
+      include_paths:
+        - /var/log/demo-app/app.log
+  processors:
+    demo_app_json:
+      type: parse_json
+  service:
+    pipelines:
+      demo_app:
+        receivers: [demo_app]
+        processors: [demo_app_json]
